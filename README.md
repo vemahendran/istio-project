@@ -41,6 +41,22 @@ kubectl apply -f install/kubernetes/istio-demo.yaml
 ```
 - This variant provides client to send plaintext traffic. All services accept both plaintext and mutual TLS traffic.
 
+Once the above commands are executed, you are ready to use Istio in cluster.
+All of the K8s objects related to Istio are mapped into the `istio-system` namespace. We have the required RBAC permissions and have deployed
+the following four primary Istio control plane components.
+
+Pilot - Takes care of configuration and programming of the proxy sidecars.
+
+Mixer - Takes care of policy decisions of the traffic and gathers telemetry.
+
+IngressGateway - Handles the incoming requests from outside of the cluster.
+
+Citadel - Creates and handles PKI (Public Key Infrastructure).
+
+kubectl get svc -n istio-system
+Check to see the major components are up and running. E.g. `istio-pilot`, `istio-ingressgateway`, `istio-policy`, `istio-sidecar-injector`, `istio-telemetry`, `istio-galley` and `promotheus`
+
+
 #### Verifying the installation
 
 - Ensure the following Kubernetes services are deployed and verify they all have an appropriate CLUSTER-IP except the jaeger-agent service
