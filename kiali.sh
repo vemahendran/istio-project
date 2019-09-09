@@ -9,7 +9,7 @@ popd
 kubectl apply -f ./istio.yaml
 
 printf "\n---------\n"
-echo "To open the Kiali UI, execute the following command in your Kubernetes environment:""
+echo "To open the Kiali UI, execute the following command in your Kubernetes environment:"
 
 while [[ $(kubectl get pods -n istio-system -l app=kiali -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 

@@ -46,7 +46,7 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
 curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 
-echo "Enable mTLS"
-kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
+# echo "Enable mTLS"
+# kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
 
 popd
