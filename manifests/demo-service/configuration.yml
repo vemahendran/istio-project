@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-service-config
+  namespace: pirates
+data:
+  SPRING_PROFILE: "development"
+  SHIP_APPLICATION_URL: "http://blackpearlserv-service:9090/blackpearlserv/v1.0"

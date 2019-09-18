@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: demo-service
+  namespace: pirates
+spec:
+  host: demo-service
+  subsets:
+  - labels:
+      version: v1.0.0
+    name: primary
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-service
+  namespace: pirates
+spec:
+  hosts:
+  - demo-service
+  gateways:
+  - pirates-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/demo-service/v1.0/ships/terror/names"
+    rewrite:
+      uri: "/flyingdutchmanserv/v1.0/names"
+    route:
+    - destination:
+        host: flyingdutchmanserv-service.pirates.svc.cluster.local
+        subset: primary
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+  - route:
+    - destination:
+        host: demo-service.pirates.svc.cluster.local
+        subset: primary
+    retries:
+      attempts: 3
+      perTryTimeout: 2s

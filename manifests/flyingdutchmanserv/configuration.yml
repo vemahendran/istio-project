@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flyingdutchmanserv-service-config
+  namespace: pirates
+data:
+  SPRING_PROFILE: "development"

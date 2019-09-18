@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: blackpearlserv-service
+  namespace: pirates
+spec:
+  host: blackpearlserv-service.pirates.svc.cluster.local
+  subsets:
+  - labels:
+      version: v1.0.0
+    name: current
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: blackpearlserv-service
+  namespace: pirates
+spec:
+  hosts:
+  - blackpearlserv-service
+  gateways:
+  - pirates-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /blackpearlserv
+    route:
+    - destination:
+        host: blackpearlserv-service.pirates.svc.cluster.local
+        subset: current
+    retries:
+      attempts: 3
+      perTryTimeout: 2s

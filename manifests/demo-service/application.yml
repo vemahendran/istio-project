@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: demo-service
+  labels:
+    app: demo-service
+    version: v1.0.0
+  namespace: pirates
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-service
+      version: v1.0.0
+  template:
+    metadata:
+      labels:
+        app: demo-service
+        version: v1.0.0
+    spec:
+      containers:
+      - name: demo-service
+        image: docker.io/vemahendran/demo-service:latest
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: demo-service-config
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+          name: http
+        livenessProbe:
+          tcpSocket:
+            port: 9080
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          tcpSocket:
+            port: 9080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 1
